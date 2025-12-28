@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>80 años Aida</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #ffffff;
+      line-height: 1.6;
+      text-align: center;
+      overflow-x: hidden;
+      background-color: #ffffff;
+    }
+
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      padding-bottom: 50px;
+    }
+
+    .full-width-img {
+      width: 100%;
+      display: block;
+    }
+
+    /* 💚 CONTADOR */
+    .countdown {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin: 25px auto 10px;
+      flex-wrap: nowrap;
+      position: relative;
+    }
+
+    .time-box {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 12px 14px;
+      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      min-width: 60px;
+    }
+
+    .time {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #bd8a00;
+      position: relative;
+      z-index: 2;
+    }
+
+    .label {
+      font-size: 0.8rem;
+      color: #c4a600;
+      z-index: 2;
+      position: relative;
+    }
+
+    /* ✨ EFECTO DESTELLOS */
+    .sparkle {
+      position: absolute;
+      top: -10px;
+      width: 2px;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      filter: blur(1px);
+      animation: fall linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      0% { opacity: 0; transform: translateY(0); }
+      20% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(80px); }
+    }
+
+    /* 🌿 LÍNEA DECORATIVA */
+    .divider {
+      width: 80%;
+      height: 2px;
+      background: linear-gradient(to right, transparent, #c0bd0f, transparent);
+      margin: 20px auto;
+      border-radius: 2px;
+    }
+
+    /* 💫 GIF CENTRAL */
+    .logo-gif {
+      width: 80px;
+      height: auto;
+      display: block;
+      margin: auto;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* 📅 FECHA */
+    .fecha-evento {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2rem;
+      color:#161000;
+      margin-top: 2px;
+    }
+
+    /* 🎀 BOTÓN */
+    .btn {
+      margin-top: 20px;
+      display: inline-block;
+      background-color: #f6fff8;
+      color: #3a3100;
+      border: none;
+      padding: 12px 28px;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color:#fffff0;
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 600px) {
+      .time {
+        font-size: 1.5rem;
+      }
+      .logo-gif {
+        width: 80px;
+      }
+      .fecha-evento {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🎵 MODAL DE BIENVENIDA -->
+  <div id="modal" style="
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255,255,255,0.95);
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    z-index: 1000;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+  ">
+    <h2 style="color:#797700; font-family:'Great Vibes', cursive; font-size:2.5rem; margin-bottom:20px;">
+       ¡Bienvenido!
+    </h2>
+    <p style="color:#b48912; font-size:1rem; margin-bottom:30px;">
+      Sé Parte de este momento tan Especial para Mí...
+    </p>
+
+    <!-- 🔘 Botón para reproducir música -->
+    <button id="btnMusica" style="
+      background:rgb(160, 151, 33); color:white; border:none;
+      padding:12px 30px; border-radius:30px;
+      cursor:pointer; font-size:1rem; margin-bottom:15px;
+    "> Presioná aquí antes de ingresar</button>
+
+    <!-- 🔘 Botón para ingresar -->
+    <button id="btnIngresar" style="
+      background:#f6fff8; color:rgb(161, 160, 70); border:none;
+      padding:12px 30px; border-radius:30px;
+      cursor:pointer; font-size:1rem;
+    ">Ingresar </button>
+  </div>
+
+  <div class="container" id="contenido">
+    <img src="/assets/1.png" alt="Nombre" class="full-width-img">
+    <img src="/assets/fotos.png" alt="Nombre" class="full-width-img">
+
+    <!-- 💚 CONTADOR -->
+    <div class="countdown" id="countdown">
+      <div class="time-box"><div class="time" id="days">00</div><div class="label">Días</div></div>
+      <div class="time-box"><div class="time" id="hours">00</div><div class="label">Horas</div></div>
+      <div class="time-box"><div class="time" id="minutes">00</div><div class="label">Min</div></div>
+      <div class="time-box"><div class="time" id="seconds">00</div><div class="label">Seg</div></div>
+    </div>
+
+    <div class="divider"></div>
+    <p class="fecha-evento">¿Cuándo?</p>
+    <p class="fecha-evento">Sábado 17 de Enero de 2026</p>
+
+    <div class="divider"></div>
+    <img src="/assets/ubicacion.gif" alt="Logo" class="logo-gif">
+    <p class="fecha-evento">Salón "La Deolinda" - Ruta 9 km 1268</p>
+    <a href="https://maps.app.goo.gl/WnjvJo6LD7pwJPcW7" target="_blank" class="btn">Ver Ubicación</a>
+
+    <div class="divider"></div>
+    <img src="/assets/whatsapp.png" alt="Logo" class="logo-gif">
+    <p class="fecha-evento">Confirmá tu Presencia:</p>
+    <a href="https://wa.link/nnplmw" target="_blank" class="btn">Confirmar Presencia</a>
+     <p class="fecha-evento">Confirmar Presencia hasta el 10 de enero</p>
+
+    <div class="divider"></div>
+    <img src="/assets/ultima.png" alt="Nombre" class="full-width-img">
+    
+  </div>
+
+<script>
+  // 🎇 Añade destellos aleatorios
+  const countdown = document.querySelector('.countdown');
+  for (let i = 0; i < 25; i++) {
+    const spark = document.createElement('div');
+    spark.classList.add('sparkle');
+    spark.style.left = `${Math.random() * 100}%`;
+    spark.style.animationDuration = `${2 + Math.random() * 3}s`;
+    spark.style.animationDelay = `${Math.random() * 3}s`;
+    countdown.appendChild(spark);
+  }
+
+  // 🕒 Cuenta regresiva
+  const eventDate = new Date("Jan 17, 2026 21:30:00").getTime();
+  const daysEl = document.getElementById('days');
+  const hoursEl = document.getElementById('hours');
+  const minutesEl = document.getElementById('minutes');
+  const secondsEl = document.getElementById('seconds');
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const diff = eventDate - now;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    daysEl.textContent = days.toString().padStart(2, '0');
+    hoursEl.textContent = hours.toString().padStart(2, '0');
+    minutesEl.textContent = minutes.toString().padStart(2, '0');
+    secondsEl.textContent = seconds.toString().padStart(2, '0');
+  }
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+
+  // 🎵 Modal y música
+  const audio = new Audio();
+  audio.src = "/assets/cancion.mp3"; // 👈 AQUI VA TU CANCIÓN
+  audio.loop = true;
+  audio.preload = "auto";
+  audio.volume = 0.6;
+
+  const modal = document.getElementById('modal');
+  const btnMusica = document.getElementById('btnMusica');
+  const btnIngresar = document.getElementById('btnIngresar');
+  const contenido = document.getElementById('contenido');
+
+  // 🔊 Reproduce la música solo al clic
+  btnMusica.addEventListener('click', async () => {
+    try {
+      await audio.play();
+      btnMusica.textContent = "✅ Música activada";
+      btnMusica.style.background = "#5fa86c";
+      btnMusica.disabled = true;
+    } catch (error) {
+      alert("⚠️ No se pudo reproducir el audio. Reintentá tocando de nuevo.");
+      console.log("Error al reproducir:", error);
+    }
+  });
+
+  // ✨ Oculta el modal y muestra el contenido
+  btnIngresar.addEventListener('click', () => {
+    modal.style.opacity = '0';
+    setTimeout(() => {
+      modal.style.display = 'none';
+      contenido.style.opacity = '1';
+    }, 600);
+  });
+</script>
+
+</body>
+</html>
